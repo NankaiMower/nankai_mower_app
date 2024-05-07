@@ -150,9 +150,9 @@ class Dashboard extends GetView<RobotStateController> {
             ..elevation = 2
             ..p = 16,
         ])
-          ..gap = 8
-          ..px = 16
-          ..py = 8,
+        ..gap = 8
+        ..px = 16
+        ..py = 8,
         n.Row([
           n.Button.elevatedIcon("Record Docking".n, n.Icon(Icons.home))
             ..enable =
