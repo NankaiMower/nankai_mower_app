@@ -293,13 +293,13 @@ class MqttConnection {
       }
     });
 
-    client.subscribe("actions/bson", MqttQos.exactlyOnce);
-    client.subscribe("map/bson", MqttQos.atLeastOnce);
-    client.subscribe("map_overlay/bson", MqttQos.atMostOnce);
+    client.subscribe("actions/bson",      MqttQos.exactlyOnce);
+    client.subscribe("map/bson",          MqttQos.atLeastOnce);
+    client.subscribe("map_overlay/bson",  MqttQos.atMostOnce);
     client.subscribe("sensor_infos/bson", MqttQos.atLeastOnce);
-    client.subscribe("robot_state/bson", MqttQos.atMostOnce);
-    client.subscribe("robot_state/bson", MqttQos.atMostOnce);
-    client.subscribe("sensors/+/bson", MqttQos.atMostOnce);
+    client.subscribe("robot_state/bson",  MqttQos.atMostOnce);
+    client.subscribe("robot_state/bson",  MqttQos.atMostOnce);
+    client.subscribe("sensors/+/bson",    MqttQos.atMostOnce);
   }
 
   void onDisconnected() {
