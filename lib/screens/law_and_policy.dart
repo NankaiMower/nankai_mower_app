@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class LawAndPolicyPage extends StatelessWidget {
   @override
@@ -79,7 +80,10 @@ class LawAndPolicyPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              // 使用 RichText 来显示富文本
+              FractionallySizedBox(
+                widthFactor: 0.5, // 设置宽度为屏幕宽度的50%
+                child: Image.asset('sources/icon.png'),
+              ),
               RichText(text: richText),
             ],
           ),
