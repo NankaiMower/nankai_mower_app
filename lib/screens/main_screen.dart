@@ -8,6 +8,8 @@ import 'package:nankai_mower_app/views/logo_widget_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'package:nankai_mower_app/screens/law_and_policy.dart';
+
 class MainScreen extends StatefulWidget {
   MainScreen({super.key});
 
@@ -102,12 +104,22 @@ class _MainScreenState extends State<MainScreen> {
                 await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
+            // ListTile(
+            //   leading: n.Icon(Icons.book),
+            //   title: const Text('law and policy'),
+            //   onTap: () async {
+            //     const url = 'http://192.168.0.119:8081/law';
+            //     await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
+            //   },
+            // ),
             ListTile(
-              leading: n.Icon(Icons.book),
-              title: const Text('law and policy'),
-              onTap: () async {
-                const url = 'http://192.168.0.119:8081/law';
-                await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
+              leading: Icon(Icons.book),
+              title: const Text('Law and Policy'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LawAndPolicyPage()),
+                );
               },
             ),
             ListTile(
