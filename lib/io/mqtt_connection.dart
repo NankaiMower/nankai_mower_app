@@ -316,17 +316,17 @@ class MqttConnection {
 
     client.disconnect();
 
-//     if (mqttclient.isWebSocket()) {
-//       client.server = "ws://${settingsController.hostname}/";
-//     } else {
-//       client.server = settingsController.hostname.value;
-//     }
-//     client.port = settingsController.mqttPort.value;
+    // if (mqttclient.isWebSocket()) {
+    //   client.server = "ws://${settingsController.hostname}/";
+    // } else {
+    //   client.server = settingsController.hostname.value;
+    // }
+    // client.port = settingsController.mqttPort.value;
 
     if (mqttclient.isWebSocket()) {
       client.server = "ws://${settingsController.hostname}/";
     } else {
-//       client.useWebSocket = true;
+      client.useWebSocket = true;
       client.server = "ws://${settingsController.hostname}/";
     }
     client.port = settingsController.mqttPort.value;

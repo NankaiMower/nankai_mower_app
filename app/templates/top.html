@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>顶部导航栏</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topnav {
+            background-color: #663399; 
+            overflow: hidden;
+            height: 65px;
+            margin-bottom: 60px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .topnav .logo {
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .topnav a:hover {
+            background-color: #512b7f; 
+        }
+        .calendar {
+            width: 450px;
+            height: 350px;
+            background: #fff;
+            box-shadow: 0px 1px 1px transparent;
+            margin-right:90px;
+        }
+
+        .body-list ul {
+            width: 100%;
+            font-family: arial;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .title a{
+            text-decoration: none;
+            color:black;
+            margin-left: 100px;
+        }
+        .submit a{
+            display: inline-block;
+            text-decoration: none;
+            color:black;
+            width:100%;
+            height:100%;
+            text-align: center;
+            line-height:40px;
+        }
+        .submit a:hover{
+            background-color: gainsboro;
+        }
+        .title a:hover{
+            background-color: gainsboro;
+        }
+        .body-list ul li {
+            width: 14.28%;
+            height: 36px;
+            line-height: 36px;
+            list-style-type: none;
+            display: block;
+            box-sizing: border-box;
+            float: left;
+            text-align: center;
+        }
+        .body-list ul button {
+            background-color: transparent;
+            width: 14.28%;
+            height: 36px;
+            line-height: 36px;
+            border: 1px solid transparent;
+            list-style-type: none;
+            display: block;
+            box-sizing: border-box;
+            float: left;
+            text-align: center;
+        }
+        .body-list ul button:hover {
+            background-color: gainsboro;
+        }
+        .lightgrey {
+            color: #a8a8a8;
+        }
+
+        .darkgrey {
+            color: #565656;
+        }
+
+        .green {
+            color: purple;
+        }
+
+        .greenbox {
+            border: 1px solid purple;
+            background: #e9f8df;
+        }
+        .date-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <a href="#" class="logo">Nankai CVLab</a>
+    </div>
+    <div class="container">
+        <div class="calendar">
+            <div class="title" style = "width:600px">
+                <h1 class="green" id="calendar-title" style="display: inline-block;width: 200px;margin-left: 100px;">Month</h1>
+                <h2 class="green small" id="calendar-year" style="display: inline-block;width: 200px;;">Year</h2>
+                <a href="" id="prev" style="font-weight: bold;">Prev Month</a>
+                <a href="" id="next" style="font-weight: bold;">Next Month</a>
+            </div>
+            <div class="body">
+                <div class="lightgrey body-list">
+                    <ul>
+                        <li>MON</li>
+                        <li>TUE</li>
+                        <li>WED</li>
+                        <li>THU</li>
+                        <li>FRI</li>
+                        <li>SAT</li>
+                        <li>SUN</li>
+                    </ul>
+                </div>
+                <div class="darkgrey body-list">
+                    <ul id="days">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="date-container">
+            <label for="year">时：</label>
+            <select id="year">
+                <!-- 添加年份选项 -->
+            </select>
+    
+            <label for="month">分：</label>
+            <select id="month">
+                <!-- 添加月份选项 -->
+            </select>
+    
+            <label for="day">秒：</label>
+            <select id="day">
+                <!-- 添加日期选项 -->
+            </select>
+        </div>
+        <div id="choose" style = "margin-top: 20px;font-weight: bold;">
+            
+            暂未选择日期
+        </div>
+        <div id="selectedText" style="font-weight: bold;margin-top: 20px;">暂未选择具体时间</div>
+        <button class="submit" style = "margin-top: 20px;height:40px;width:120px;background-color:blanchedalmond;border: none;font-weight: bold;margin-left: 300px;">
+            <a href="#">确认提交</a>
+        </button>
+    </div>
+</body>
+<script>
+    var month_olympic = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var month_normal = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    var month_name = ["January", "Febrary", "March", "April", "May", "June", "July", "Auguest", "September", "October", "November", "December"];
+    var holder = document.getElementById("days");
+    var prev = document.getElementById("prev");
+    var next = document.getElementById("next");
+    var ctitle = document.getElementById("calendar-title");
+    var cyear = document.getElementById("calendar-year");
+    var my_date = new Date();
+    var my_year = my_date.getFullYear();
+    var my_month = my_date.getMonth();
+    var my_day = my_date.getDate();
+    function dayStart(month, year) {
+        var tmpDate = new Date(year, month, 1);
+        return (tmpDate.getDay());
+    }
+    function daysMonth(month, year) {
+        var tmp = year % 4;
+        if (tmp == 0) {
+            return (month_olympic[month]);
+        } else {
+            return (month_normal[month]);
+        }
+    }
+    function refreshDate() {
+        var str = "";
+        var totalDay = daysMonth(my_month, my_year); //获取该月总天数
+        var firstDay = dayStart(my_month, my_year); //获取该月第一天是星期几
+        var myclass;
+        for (var i = 1; i < firstDay; i++) {
+            str += "<button></button>"; 
+        }
+        id = " id = 'show_date'"
+        click_event = " onclick = 'date_click"
+        for (var i = 1; i <= totalDay; i++) {
+            if ((i < my_day && my_year == my_date.getFullYear() && my_month == my_date.getMonth()) || my_year < my_date.getFullYear() || (my_year == my_date.getFullYear() && my_month < my_date.getMonth())) {
+                myclass = " class='lightgrey'"; 
+            } else if (i == my_day && my_year == my_date.getFullYear() && my_month == my_date.getMonth()) {
+                myclass = " class='green greenbox'"; 
+            } else {
+                myclass = " class='darkgrey'"; 
+            }
+            str += "<button" + myclass + id + click_event + "(" + i.toString() + ")'" + ">" + i + "</button>";
+        }
+        holder.innerHTML = str;
+        ctitle.innerHTML = month_name[my_month];
+        cyear.innerHTML = my_year;
+    }
+    refreshDate(); //执行该函数
+    prev.onclick = function (e) {
+        e.preventDefault();
+        my_month--;
+        if (my_month < 0) {
+            my_year--;
+            my_month = 11;
+        }
+        refreshDate();
+    }
+    next.onclick = function (e) {
+        e.preventDefault();
+        my_month++;
+        if (my_month > 11) {
+            my_year++;
+            my_month = 0;
+        }
+        refreshDate();
+    }
+    function date_click(i)
+    {
+        console.log(i)
+        var holder = document.getElementById("choose");
+        console.log(holder)
+        holder.textContent = "当前选择的日期：" + my_year.toString() + "年" + (my_month+1).toString() + "月" + i.toString() + "日"
+        console.log(holder.textContent)
+    }
+    const yearSelect = document.getElementById('year');
+        for (let year = 0; year <= 24; year++) {
+            const option = document.createElement('option');
+            option.value = year;
+            option.textContent = year + '时';
+            yearSelect.appendChild(option);
+        }
+
+        // 填充月份选项
+        const monthSelect = document.getElementById('month');
+        for (let month = 0; month <= 60; month++) {
+            const option = document.createElement('option');
+            option.value = month;
+            option.textContent = month + '分';
+            monthSelect.appendChild(option);
+        }
+
+        // 填充日期选项
+        const daySelect = document.getElementById('day');
+        for (let day = 0; day <= 60; day++) {
+            const option = document.createElement('option');
+            option.value = day;
+            option.textContent = day + '秒';
+            daySelect.appendChild(option);
+        }
+
+        // 移除默认选中项
+        yearSelect.selectedIndex = -1;
+        monthSelect.selectedIndex = -1;
+        daySelect.selectedIndex = -1;
+        const selectedText = document.getElementById('selectedText');
+
+        // 监听选择框变化事件
+        yearSelect.addEventListener('change', updateSelectedText);
+        monthSelect.addEventListener('change', updateSelectedText);
+        daySelect.addEventListener('change', updateSelectedText);
+        
+        function updateSelectedText() {
+            const selectedYear = yearSelect.value || '0';
+            const selectedMonth = monthSelect.value || '0';
+            const selectedDay = daySelect.value || '0';
+            console.log(selectedDay)
+            console.log(selectedYear)
+            console.log(selectedMonth)
+            // 根据选中的时间更新显示
+            selectedText.textContent = `当前选中时间：${selectedYear}时 ${selectedMonth}分 ${selectedDay}秒`;
+        }
+</script>
+</html>

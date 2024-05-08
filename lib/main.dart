@@ -29,10 +29,10 @@ void main() async {
   Get.put(RemoteController());
 
   // Periodic MQTT reconnect
-  // Timer.periodic(const Duration(seconds: 1), (timer) {
-  //   mqttConnection.tryConnect();
-  // });
-  mqttConnection.tryConnect();
+  Timer.periodic(const Duration(seconds: 1), (timer) {
+    mqttConnection.tryConnect();
+  });
+  // mqttConnection.tryConnect();
 
   runApp(const MyApp());
 }

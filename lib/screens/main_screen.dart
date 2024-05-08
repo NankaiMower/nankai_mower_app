@@ -106,48 +106,32 @@ class _MainScreenState extends State<MainScreen> {
               leading: n.Icon(Icons.book),
               title: const Text('law and policy'),
               onTap: () async {
-                const url = '192.168.0.114:8081/law';
-                if (await canLaunchUrlString(url)) {
-                  await launchUrlString(url);
-                } else {
-                  throw '无法打开 $url';
-                }
+                const url = 'http://192.168.0.119:8081/law';
+                await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
             ListTile(
               leading: n.Icon(Icons.edit_road),
               title: const Text('mowing route'),
               onTap: () async {
-                const url = '192.168.0.114:8081/date';
-                if (await canLaunchUrlString(url)) {
-                  await launchUrlString(url);
-                } else {
-                  throw '无法打开 $url';
-                }
+                const url = 'http://192.168.0.119:8081/road';
+                await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
             ListTile(
               leading: n.Icon(Icons.rule),
               title: const Text('appointment'),
               onTap: () async {
-                const url = '192.168.0.114:8081/date';
-                if (await canLaunchUrlString(url)) {
-                  await launchUrlString(url);
-                } else {
-                  throw '无法打开 $url';
-                }
+                const url = 'http://192.168.0.119:8081/date';
+                await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
             ListTile(
               leading: n.Icon(Icons.timelapse),
               title: const Text('history'),
               onTap: () async {
-                const url = '192.168.0.114:8081/history';
-                if (await canLaunchUrlString(url)) {
-                  await launchUrlString(url);
-                } else {
-                  throw '无法打开 $url';
-                }
+                const url = 'http://192.168.0.119:8081/history';
+                await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
           ],

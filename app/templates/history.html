@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时间选择器</title>
+    <style>
+        /* 样式可以根据你的需求进行调整 */
+        .time-selector {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="time-selector">
+        <select id="hour">
+            <!-- 小时选项 -->
+            <!-- 这里可以使用 JavaScript 动态生成选项，但为了简单起见，我直接写了一些示例选项 -->
+            <option value="00">00</option>
+            <option value="01">01</option>
+            <!-- ... 其他小时选项 ... -->
+            <option value="23">23</option>
+        </select>
+        <select id="minute">
+            <!-- 分钟选项 -->
+            <!-- 同样，这里可以使用 JavaScript 动态生成选项 -->
+            <option value="00">00</option>
+            <option value="15">15</option>
+            <!-- ... 其他分钟选项 ... -->
+            <option value="45">45</option>
+        </select>
+        <select id="second">
+            <!-- 秒钟选项 -->
+            <!-- 同样，这里可以使用 JavaScript 动态生成选项 -->
+            <option value="00">00</option>
+            <option value="10">10</option>
+            <!-- ... 其他秒钟选项 ... -->
+            <option value="50">50</option>
+        </select>
+    </div>
+    <div id="display-time"></div>
+
+    <script>
+        const hourSelect = document.getElementById("hour");
+        const minuteSelect = document.getElementById("minute");
+        const secondSelect = document.getElementById("second");
+        const displayTime = document.getElementById("display-time");
+
+        // 监听选择框变化事件
+        hourSelect.addEventListener("change", updateDisplayTime);
+        minuteSelect.addEventListener("change", updateDisplayTime);
+        secondSelect.addEventListener("change", updateDisplayTime);
+
+        function updateDisplayTime() {
+            const selectedHour = hourSelect.value;
+            const selectedMinute = minuteSelect.value;
+            const selectedSecond = secondSelect.value;
+
+            // 根据选中的时间更新显示
+            displayTime.textContent = `当前选中时间：${selectedHour}:${selectedMinute}:${selectedSecond}`;
+        }
+    </script>
+</body>
+</html>
