@@ -1,0 +1,241 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>折线图</title>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
+{#    <style>#}
+{#        body {#}
+{#            display: flex;#}
+{#            flex-direction: column; /* 设置为纵向排列 */#}
+{#            justify-content: center;#}
+{#            align-items: center;#}
+{#            height: 100vh; /* 设置为视口的高度 */#}
+{#            margin: auto; /* 移除默认的边距 */#}
+{#        }#}
+{#        #chart-container{#}
+{#            width: 50%; /* 设置图表宽度为50% */#}
+{#            height: 50%;#}
+{#            margin-bottom: 10px;#}
+{#        }#}
+{#        .input-container#}
+{#        {#}
+{#            width: 50%; /* 设置图表宽度为50% */#}
+{#            height: 50%;#}
+{#            font-size: 20px;#}
+{#            font-weight:bold;#}
+{#        }#}
+{#        #myChart {#}
+{#            width: 100%; /* 设置图表宽度为100% */#}
+{#            height: 100%; /* 设置图表高度为100% */#}
+{#        }#}
+{#        .topnav {#}
+{#            width:100%;#}
+{#            background-color: #663399;#}
+{#            overflow: hidden;#}
+{#            height: 55%;#}
+{#            margin-bottom: 60px;#}
+{#        }#}
+{#        .topnav a {#}
+{#            float: left;#}
+{#            display: block;#}
+{#            color: white;#}
+{#            text-align: center;#}
+{#            padding: 14px 16px;#}
+{#            text-decoration: none;#}
+{#        }#}
+{#        .topnav .logo {#}
+{#            font-weight: bold;#}
+{#            font-size: 30px;#}
+{#        }#}
+{##}
+{#        .topnav a:hover {#}
+{#            background-color: #512b7f;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#    <div class="topnav">#}
+{#        <a href="#" class="logo">Nankai CVLab</a>#}
+{#    </div>#}
+{#    <div class="input-container">#}
+{#        割草总时长:#}
+{#    </div>#}
+{#    <div id="chart-container">#}
+{#        <canvas id="myChart"></canvas>#}
+{#    </div>#}
+{#    <div class="input-container">#}
+{#        割草机运行总时长:#}
+{#    </div>#}
+{#    <div class="input-container">#}
+{#        充电总时长:#}
+{#    </div>#}
+{#    <div class="input-container">#}
+{#        操作总时长:#}
+{#    </div>#}
+{#    <script>#}
+{#        fetch('http://localhost:5000/data')#}
+{#        .then(response => response.json())#}
+{#        .then(data => {#}
+{#            var ctx = document.getElementById('myChart').getContext('2d');#}
+{#            var myChart = new Chart(ctx, {#}
+{#                type: 'line',#}
+{#                data: {#}
+{#                    labels: data.labels,#}
+{#                    datasets: [{#}
+{#                        label: '割草时长',#}
+{#                        data: data.values,#}
+{#                        backgroundColor: 'rgba(255, 99, 132, 0.2)',#}
+{#                        borderColor: 'rgba(255, 99, 132, 1)',#}
+{#                        borderWidth: 1#}
+{#                    }]#}
+{#                },#}
+{#                options: {#}
+{#                    scales: {#}
+{#                        y: {#}
+{#                            beginAtZero: true#}
+{#                        }#}
+{#                    }#}
+{#                }#}
+{#            });#}
+{#            var containers = document.querySelectorAll('.input-container');#}
+{#            console.log(containers)#}
+{#            for (var i = 0; i < containers.length; i++) {#}
+{#                containers[i].innerHTML = containers[i].innerHTML + data.values[i] + "h";  // 假设 data.newContent 是一个数组，包含了新的内容#}
+{#                console.log(data.values)#}
+{#            }#}
+{#        })#}
+{#        .catch(error => console.error('Error:', error));#}
+{#    </script>#}
+{#</body>#}
+{#</html>#}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>割草机工作记录</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; /* 设置为纵向排列 */
+            justify-content: center;
+            align-items: center; /* 设置为视口的高度 */
+            margin: auto; /* 移除默认的边距 */
+        }
+        #chart-container{
+            width: 100%; /* 设置图表宽度为50% */
+            margin-bottom: 10px;
+            height: 60vh;
+        }
+        .input-container
+        {
+            width: 100%; /* 设置图表宽度为50% */
+            height: 50%;
+            font-size: 20px;
+            font-weight:bold;
+        }
+        #myChart {
+            width: 100%; /* 设置图表宽度为100% */
+            height: 100%; /* 设置图表高度为100% */
+        }
+        .topnav {
+            width:100%;
+            background-color: #663399;
+            overflow: hidden;
+            height: 20%;
+            margin-bottom: 60px;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .topnav .logo {
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .topnav a:hover {
+            background-color: #512b7f;
+        }
+        .container {
+            display: flex; /* 设置为 flex 布局 */
+        }
+        .info-container {
+            display: flex;
+            flex-direction: column; /* 设置为纵向排列 */
+            justify-content: space-between;
+            margin-right: 20px; /* 添加右边距 */
+        }
+        .image-container img{
+            width:90%;
+            height:90%;
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <a href="#" class="logo">Nankai CVLab</a>
+    </div>
+    <div class="container">
+        <div id="chart-container">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="info-container">
+            <div class="image-container">
+                <img src = "/static/image/logo.png">
+            </div>
+            <div class="input-container">
+                割草总时长:
+            </div>
+            <div class="input-container">
+                割草总时长:
+            </div>
+            <div class="input-container">
+                充电总时长:
+            </div>
+            <div class="input-container">
+                操作总时长:
+            </div>
+
+        </div>
+
+    </div>
+        <script>
+        fetch('http://localhost:5000/data')
+        .then(response => response.json())
+        .then(data => {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '割草时长',
+                        data: data.values,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            var containers = document.querySelectorAll('.input-container');
+            console.log(containers)
+            for (var i = 0; i < containers.length; i++) {
+                containers[i].innerHTML = containers[i].innerHTML + data.values[i] + "h";  // 假设 data.newContent 是一个数组，包含了新的内容
+                console.log(data.values)
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
+</body>
+</html>

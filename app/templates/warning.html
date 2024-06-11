@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-position: center;
+            background-color: #b1f0ff;
+        }
+        .warning {
+            position: absolute;
+            bottom: 15%;
+            right: 35%;
+            color: red;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .gps {
+            position: absolute;
+            top: 10%;
+            right: -35%;
+            color: black;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .topnav {
+            width:100%;
+            background-color: #663399;
+            overflow: hidden;
+            height: 10%;
+            {#margin-bottom: 60px;#}
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .topnav .logo {
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .topnav a:hover {
+            background-color: #512b7f;
+        }
+        .image-box {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('/static/image/overarea.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            width: 50%; /* 调整宽度 */
+            height: 50%; /* 调整高度 */
+            margin: auto; /* 居中显示 */
+
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <a href="#" class="logo">Nankai CVLab</a>
+    </div>
+    <div class="image-box">
+        <div class="warning">割草机已偏离指定区域：</div>
+        <div class="gps">
+            当前绝对GPS定位为：<br><br>
+        </div>
+    </div>
+    <script>
+        fetch('http://localhost:5000/warningdata')
+        .then(response => response.json())
+        .then(data => {
+            var containers = document.querySelectorAll('.warning')[0];
+            console.log(containers)
+            containers.innerHTML = containers.innerHTML + data.values[0] + "m";  // 假设 data.newContent 是一个数组，包含了新的内容
+            console.log(data.values[0])
+            var containers1 = document.querySelectorAll('.gps')[0];
+            console.log(containers1.innerHTML)
+            containers1.innerHTML = containers1.innerHTML + data.firstlabels[0] + "°N" + "  " +  data.secondlabels[0]+ "°E";// 假设 data.newContent 是一个数组，包含了新的内容
+        })
+        .catch(error => console.error('Error:', error));
+    </script>
+</body>
+
+</html>
