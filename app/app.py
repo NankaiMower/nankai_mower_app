@@ -1,16 +1,20 @@
 # coding: utf-8
-import psutil
-from flask import Flask, render_template, Response, request, url_for
 import cv2
 import numpy as np
 import time
 import os
 from PIL import Image
 import subprocess
+import json
+import psutil
+from flask import Flask, render_template, Response, request, url_for, jsonify
+from flask_cors import CORS
+from pretrained_model.grass_segmentaion.deeplab import DeepLabModel
 
 app = Flask(__name__)
+CORS(app)
 
-from pretrained_model.grass_segmentaion.deeplab import DeepLabModel
+
 model_path = "./pretrained_model/grass_segmentaion/grassSeg.tar.gz"
 seg_model = DeepLabModel(model_path)
 
@@ -67,6 +71,36 @@ def history():
 @app.route('/road', methods=['GET', 'POST'])
 def road():
     return render_template('road.html')
+
+@app.route('/allchart', methods=['GET', 'POST'])
+def chart():
+    return render_template('chart.html')
+
+@app.route('/taskchart', methods=['GET', 'POST'])
+def taskchart():
+    return render_template('taskchart.html')
+
+@app.route('/data', methods=['GET'])
+def get_data():
+    with open('E:\Desktop/flask(2)/flask/flask/static/data/data1.json', 'r') as f:
+        data = json.load(f)
+    return jsonify(data)
+
+@app.route('/taskdata', methods=['GET'])
+def get_warning_data():
+    with open('E:\Desktop/flask(2)/flask/flask/static/data/data2.json', 'r') as f:
+        data = json.load(f)
+    return jsonify(data)
+
+@app.route('/warningdata', methods=['GET'])
+def get_task_data():
+    with open('E:\Desktop/flask(2)/flask/flask/static/data/data3.json', 'r') as f:
+        data = json.load(f)
+    return jsonify(data)
+
+@app.route('/warn', methods=['GET'])
+def warning():
+    return render_template('warning.html')
 
 def gen():
     cap = cv2.VideoCapture(0)
