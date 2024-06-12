@@ -16,7 +16,7 @@ class SettingsController extends GetxController {
 
   void load() {
     final box = GetStorage();
-    hostname.value = box.read("mqtt_hostname") ?? "192.168.0.119";
+    hostname.value = box.read("mqtt_hostname") ?? "192.168.1.98";
     mqttUsername.value = box.read("mqtt_username") ?? "";
     mqttPassword.value = box.read("mqtt_password") ?? "";
     mqttPort.value = box.read("mqtt_port") ?? 9001;
