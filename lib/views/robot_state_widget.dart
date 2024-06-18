@@ -17,56 +17,57 @@ class RobotStateWidget extends GetView<RobotStateController> {
     return Icons.gps_off;
   }
 
+  //
+
   @override
   Widget build(BuildContext context) {
-    return Material(
-        elevation: 5,
-        child: Obx(() => n.Row([
-          RichText(
-              text: TextSpan(
-                  style: const TextStyle(color: Colors.black87),
-                  children: [
-                const TextSpan(text: "MQTT: "),
-                WidgetSpan(
-                    child: Icon(
-                        controller.robotState.value.isConnected
-                            ? Icons.link
-                            : Icons.link_off,
-                        color: Colors.black54),
-                    alignment: PlaceholderAlignment.middle),
-              ])),
-          /*RichText(
-              text: const TextSpan(
-                  style: TextStyle(color: Colors.black87),
-                  children: [
-                TextSpan(text: "WiFi: "),
-                WidgetSpan(
-                    child:
-                        Icon(Icons.network_wifi_3_bar, color: Colors.black54),
-                    alignment: PlaceholderAlignment.middle),
-              ])),*/
-          RichText(
-              text: TextSpan(
-                  style: const TextStyle(color: Colors.black87),
-                  children: [
-                const TextSpan(text: "GPS: "),
-                WidgetSpan(
-                    child: Obx(() => Icon(getGpsIcon(controller.robotState.value.gpsPercent), color: Colors.black54)),
-                    alignment: PlaceholderAlignment.middle),
-              ])),
-          RichText(
-              text: TextSpan(
-                  style: const TextStyle(color: Colors.black87),
-                  children: [
-                const TextSpan(text: "Battery: "),
-                WidgetSpan(
-                    child: Icon(getBatteryIcon(controller.robotState.value.batteryPercent, controller.robotState.value.isCharging), color: Colors.black54),
-                    alignment: PlaceholderAlignment.middle),
-              ]))
-        ])
-          ..mainAxisAlignment = MainAxisAlignment.end
-          ..m = 16
-          ..gap = 8));
+    return n.Row([
+      RichText(
+          text: TextSpan(
+              style: const TextStyle(color: Colors.black87),
+              children: [
+            const TextSpan(text: "MQTT: "),
+            WidgetSpan(
+                child: Icon(
+                    controller.robotState.value.isConnected
+                        ? Icons.link
+                        : Icons.link_off,
+                    color: Colors.black54),
+                alignment: PlaceholderAlignment.middle),
+          ])),
+      // RichText(
+      //     text: const TextSpan(
+      //         style: TextStyle(color: Colors.black87),
+      //         children: [
+      //       TextSpan(text: "WiFi: "),
+      //       WidgetSpan(
+      //           child: Icon(Icons.network_wifi_3_bar,
+      //               color: Colors.black54),
+      //           alignment: PlaceholderAlignment.middle),
+      //     ])),
+      RichText(
+          text: TextSpan(
+              style: const TextStyle(color: Colors.black87),
+              children: [
+            const TextSpan(text: "GPS: "),
+            WidgetSpan(
+                child: Icon(getGpsIcon(controller.robotState.value.gpsPercent),
+                    color: Colors.black54),
+                alignment: PlaceholderAlignment.middle),
+          ])),
+      RichText(
+          text: TextSpan(
+              style: const TextStyle(color: Colors.black87),
+              children: [
+            const TextSpan(text: "Battery: "),
+            WidgetSpan(
+                child: Icon(
+                    getBatteryIcon(controller.robotState.value.batteryPercent,
+                        controller.robotState.value.isCharging),
+                    color: Colors.black54),
+                alignment: PlaceholderAlignment.middle),
+          ]))
+    ]);
   }
 
   IconData getBatteryIcon(double percentage, bool charging) {

@@ -8,7 +8,7 @@ import 'package:nankai_mower_app/controllers/robot_state_controller.dart';
 import 'package:nankai_mower_app/controllers/sensors_controller.dart';
 import 'package:nankai_mower_app/controllers/settings_controller.dart';
 import 'package:nankai_mower_app/io/mqtt_connection.dart';
-import 'package:nankai_mower_app/screens/main_screen.dart';
+import 'package:nankai_mower_app/screens/tabs.dart';
 
 void main() async {
   await GetStorage.init();
@@ -49,16 +49,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Open Mower App',
+      debugShowCheckedModeBanner: false,
+      title: 'Nankai Mower App',
       theme: ThemeData(
           useMaterial3: false,
           colorSchemeSeed: Colors.blue,
-          brightness: Brightness.light
-      ),
-      initialRoute: "/",
-      getPages: [
-        GetPage(name: "/", page: () => MainScreen())
-      ],
+          brightness: Brightness.light),
+      home: const Tabs(),
+      // initialRoute: "/",
+      // getPages: [GetPage(name: "/", page: () => MainScreen())],
+      // getPages: [GetPage(name: "/", page: () => Tabs())],
     );
   }
 }

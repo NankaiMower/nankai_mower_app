@@ -16,50 +16,56 @@ class Dashboard extends GetView<RobotStateController> {
   @override
   Widget build(BuildContext context) {
     return n.Column([
+      // 信号（MQTT、GPS、电量）状态栏
       const RobotStateWidget(),
       n.Stack([
-        Obx(() => MapWidget(
-            centerOnRobot: controller.robotState.value.currentState == "AREA_RECORDING")
-        ),
-        n.Column([
-          Card(
-            elevation: 3,
-            child: n.Column([
-              "Current State:".bodyLarge
-                ..m = 4,
-              Obx(() => Text(
-                  controller.robotState.value.currentState,
-                    style: Theme.of(context).textTheme.headlineMedium)
-                    .niku
-                    ..m = 4)
-            ])
-            ..p = 16
-            ..mainAxisAlignment = MainAxisAlignment.start
-            ..crossAxisAlignment = CrossAxisAlignment.start
-            ..fullWidth,
+        // 地图展示
+        MapWidget(
+            centerOnRobot:
+                controller.robotState.value.currentState == "AREA_RECORDING"),
+        Row(children: [
+          const Text(
+            "[Current State] ",
+            style: TextStyle(color: Colors.blue, fontSize: 20),
           ),
-        ])
-        ..p = 16,
-        Obx(()=>(controller.robotState.value.currentState == "AREA_RECORDING") ?
-          Container(
-            padding: const EdgeInsets.all(30.0),
-            alignment: Alignment.bottomCenter,
-            child: Joystick(
-              mode: JoystickMode.all,
-              onStickDragEnd: () {
-                remoteControl.sendMessage(0, 0);
-              },
-              listener: (details) {
-                remoteControl.joystickCommand.value =
-                    JoystickCommand(-details.y * 1.0, -details.x * 1.6);
-              },
-            )) : n.Row([])),
-          ])
-          ..expanded,
-      Material(
-        elevation: 5,
-          child: Obx(() => getButtonPanel(context, controller)))
-      ]);
+          Text(
+            controller.robotState.value.currentState,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.blue, fontSize: 20),
+          )
+        ]),
+        // Container(
+        //     padding: const EdgeInsets.all(30.0),
+        //     alignment: Alignment.bottomCenter,
+        //     child: Joystick(
+        //       mode: JoystickMode.all,
+        //       onStickDragEnd: () {
+        //         remoteControl.sendMessage(0, 0);
+        //       },
+        //       listener: (details) {
+        //         remoteControl.joystickCommand.value =
+        //             JoystickCommand(-details.y * 1.0, -details.x * 1.6);
+        //       },
+        //     )),
+        Obx(() => (controller.robotState.value.currentState == "AREA_RECORDING")
+            ? Container(
+                padding: const EdgeInsets.all(10.0),
+                alignment: Alignment.bottomCenter,
+                child: Joystick(
+                  mode: JoystickMode.all,
+                  onStickDragEnd: () {
+                    remoteControl.sendMessage(0, 0);
+                  },
+                  listener: (details) {
+                    remoteControl.joystickCommand.value =
+                        JoystickCommand(-details.y * 1.0, -details.x * 1.6);
+                  },
+                ))
+            : Container()),
+      ])
+        ..expanded,
+      Material(elevation: 5, child: getButtonPanel(context, controller))
+    ]);
   }
 
   Widget getButtonPanel(BuildContext context, RobotStateController controller) {
@@ -150,9 +156,9 @@ class Dashboard extends GetView<RobotStateController> {
             ..elevation = 2
             ..p = 16,
         ])
-        ..gap = 8
-        ..px = 16
-        ..py = 8,
+          ..gap = 8
+          ..px = 16
+          ..py = 8,
         n.Row([
           n.Button.elevatedIcon("Record Docking".n, n.Icon(Icons.home))
             ..enable =
