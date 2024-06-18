@@ -16,50 +16,62 @@ class Dashboard extends GetView<RobotStateController> {
   @override
   Widget build(BuildContext context) {
     return n.Column([
+      // 信号（MQTT、GPS、电量）状态栏
       const RobotStateWidget(),
       n.Stack([
+        // 地图展示
         Obx(() => MapWidget(
-            centerOnRobot: controller.robotState.value.currentState == "AREA_RECORDING")
-        ),
-        n.Column([
-          Card(
-            elevation: 3,
-            child: n.Column([
-              "Current State:".bodyLarge
-                ..m = 4,
-              Obx(() => Text(
-                  controller.robotState.value.currentState,
-                    style: Theme.of(context).textTheme.headlineMedium)
-                    .niku
-                    ..m = 4)
-            ])
-            ..p = 16
-            ..mainAxisAlignment = MainAxisAlignment.start
-            ..crossAxisAlignment = CrossAxisAlignment.start
-            ..fullWidth,
-          ),
-        ])
-        ..p = 16,
-        Obx(()=>(controller.robotState.value.currentState == "AREA_RECORDING") ?
-          Container(
-            padding: const EdgeInsets.all(30.0),
-            alignment: Alignment.bottomCenter,
-            child: Joystick(
-              mode: JoystickMode.all,
-              onStickDragEnd: () {
-                remoteControl.sendMessage(0, 0);
-              },
-              listener: (details) {
-                remoteControl.joystickCommand.value =
-                    JoystickCommand(-details.y * 1.0, -details.x * 1.6);
-              },
-            )) : n.Row([])),
-          ])
-          ..expanded,
+            centerOnRobot:
+                controller.robotState.value.currentState == "AREA_RECORDING")),
+        Obx(() => Row(children: [
+              const Text(
+                "[Current State] ",
+                style: TextStyle(color: Colors.blue, fontSize: 20),
+              ),
+              Text(
+                controller.robotState.value.currentState,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    fontSize: 20),
+              )
+            ])),
+        Obx(() => (controller.robotState.value.currentState == "AREA_RECORDING")
+            ? Container(
+                padding: const EdgeInsets.all(20.0),
+                alignment: Alignment.bottomCenter,
+                child: Joystick(
+                  base: JoystickBase(
+                    size: 160,
+                    decoration: JoystickBaseDecoration(
+                        drawArrows: true,
+                        drawOuterCircle: false,
+                        drawMiddleCircle: true,
+                        middleCircleColor: Colors.black.withOpacity(0.1),
+                        drawInnerCircle: false,
+                        boxShadowColor: Colors.transparent),
+                  ),
+                  stick: JoystickStick(
+                    size: 40,
+                    decoration: JoystickStickDecoration(
+                        color: Colors.blue, shadowColor: Colors.transparent),
+                  ),
+                  mode: JoystickMode.all,
+                  includeInitialAnimation: false,
+                  onStickDragEnd: () {
+                    remoteControl.sendMessage(0, 0);
+                  },
+                  listener: (details) {
+                    remoteControl.joystickCommand.value =
+                        JoystickCommand(-details.y * 1.0, -details.x * 1.5);
+                  },
+                ))
+            : Container()),
+      ])
+        ..expanded,
       Material(
-        elevation: 5,
-          child: Obx(() => getButtonPanel(context, controller)))
-      ]);
+          elevation: 5, child: Obx(() => getButtonPanel(context, controller)))
+    ]);
   }
 
   Widget getButtonPanel(BuildContext context, RobotStateController controller) {
@@ -79,23 +91,20 @@ class Dashboard extends GetView<RobotStateController> {
                 }
               }
               ..expanded
-              ..elevation = 2
-              ..p = 16)
+              ..p = 10)
             : (n.Button.elevatedIcon("Pause".n, n.Icon(Icons.pause))
               ..enable = controller.hasAction("mower_logic:mowing/pause")
               ..onPressed = () {
                 remoteControl.callAction("mower_logic:mowing/pause");
               }
               ..expanded
-              ..elevation = 2
-              ..p = 16),
+              ..p = 10),
         n.Button.elevatedIcon("Stop".n, n.Icon(Icons.home))
           ..enable = controller.hasAction("mower_logic:mowing/abort_mowing")
           ..onPressed = () {
             remoteControl.callAction("mower_logic:mowing/abort_mowing");
           }
-          ..elevation = 2
-          ..p = 16,
+          ..p = 10,
         n.Button.elevatedIcon(
             "Area Recording".n, n.Icon(Icons.fiber_manual_record))
           ..enable =
@@ -103,11 +112,10 @@ class Dashboard extends GetView<RobotStateController> {
           ..onPressed = () {
             remoteControl.callAction("mower_logic:idle/start_area_recording");
           }
-          ..elevation = 2
-          ..p = 16,
+          ..p = 10,
       ])
         ..gap = 8
-        ..p = 16;
+        ..p = 10;
     } else {
       return n.Column([
         n.Row([
@@ -121,8 +129,7 @@ class Dashboard extends GetView<RobotStateController> {
                       .callAction("mower_logic:area_recording/start_recording");
                 }
                 ..expanded
-                ..elevation = 2
-                ..p = 16)
+                ..p = 10)
               : (n.Button.elevatedIcon(
                   "Stop Recording".n, n.Icon(Icons.fiber_manual_record))
                 ..visible = controller
@@ -133,8 +140,7 @@ class Dashboard extends GetView<RobotStateController> {
                 }
                 ..style = n.ButtonStyle(backgroundColor: Colors.red)
                 ..expanded
-                ..elevation = 2
-                ..p = 16),
+                ..p = 10),
           n.Button.elevatedIcon("Finish Area".n, n.Icon(Icons.stop),
               onPressed: () {
             n.showDialog(
@@ -147,12 +153,12 @@ class Dashboard extends GetView<RobotStateController> {
               "mower_logic:area_recording/finish_mowing_area",
               "mower_logic:area_recording/finish_discard"
             ])
-            ..elevation = 2
-            ..p = 16,
+            ..expanded
+            ..p = 10,
         ])
-        ..gap = 8
-        ..px = 16
-        ..py = 8,
+          ..gap = 8
+          ..px = 16
+          ..py = 8,
         n.Row([
           n.Button.elevatedIcon("Record Docking".n, n.Icon(Icons.home))
             ..enable =
@@ -161,24 +167,20 @@ class Dashboard extends GetView<RobotStateController> {
               remoteControl
                   .callAction("mower_logic:area_recording/record_dock");
             }
-            ..elevation = 2
             ..expanded
-            ..p = 16,
-          n.Button.elevatedIcon(
-              "Exit Recording Mode".n, n.Icon(Icons.exit_to_app))
+            ..p = 10,
+          n.Button.elevatedIcon("Exit Recording".n, n.Icon(Icons.exit_to_app))
             ..enable = controller
                 .hasAction("mower_logic:area_recording/exit_recording_mode")
             ..onPressed = () {
               remoteControl
                   .callAction("mower_logic:area_recording/exit_recording_mode");
             }
-            ..elevation = 2
             ..expanded
-            ..p = 16,
+            ..p = 10,
         ])
           ..gap = 8
-          ..px = 16
-          ..py = 8,
+          ..p = 8
       ])
         ..py = 8;
     }

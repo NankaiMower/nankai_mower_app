@@ -58,8 +58,9 @@ class MqttConnection {
     final buffer = Uint8Buffer();
     buffer.addAll(binary.byteList);
     try {
-      client.publishMessage("/teleop", high_qos ? MqttQos.atLeastOnce : MqttQos.atMostOnce, buffer);
-    } catch(e) {
+      client.publishMessage("/teleop",
+          high_qos ? MqttQos.atLeastOnce : MqttQos.atMostOnce, buffer);
+    } catch (e) {
       print("error publishing to mqtt");
     }
   }
@@ -103,12 +104,12 @@ class MqttConnection {
   void parseMap(obj) {
     final mapModel = MapModel();
 
-    mapModel.width =   obj["d"]["meta"]["mapWidth"] ?? 0;
-    mapModel.height =  obj["d"]["meta"]["mapHeight"] ?? 0;
+    mapModel.width = obj["d"]["meta"]["mapWidth"] ?? 0;
+    mapModel.height = obj["d"]["meta"]["mapHeight"] ?? 0;
     mapModel.centerX = obj["d"]["meta"]["mapCenterX"] ?? 0;
     mapModel.centerY = -obj["d"]["meta"]["mapCenterY"] ?? 0;
-    mapModel.dockX =       obj["d"]["docking_pose"]["x"] ?? 0;
-    mapModel.dockY =       -obj["d"]["docking_pose"]["y"] ?? 0;
+    mapModel.dockX = obj["d"]["docking_pose"]["x"] ?? 0;
+    mapModel.dockY = -obj["d"]["docking_pose"]["y"] ?? 0;
     mapModel.dockHeading = obj["d"]["docking_pose"]["heading"] ?? 0;
 
     final wa = obj["d"]["working_areas"];
@@ -124,7 +125,8 @@ class MqttConnection {
       }
     }
 
-    print("Got a map with ${mapModel.mowingAreas.length} mowing areas and ${mapModel.navigationAreas.length} navigation areas. Size: ${mapModel.width} x ${mapModel.height}. Docking pos: ${mapModel.dockX}, ${mapModel.dockY}");
+    print(
+        "Got a map with ${mapModel.mowingAreas.length} mowing areas and ${mapModel.navigationAreas.length} navigation areas. Size: ${mapModel.width} x ${mapModel.height}. Docking pos: ${mapModel.dockX}, ${mapModel.dockY}");
 
     final RobotStateController robotStateController = Get.find();
     robotStateController.map.value = mapModel;
@@ -223,7 +225,8 @@ class MqttConnection {
         // print("got message on ${msg.topic}");
         final payload = msg.payload as MqttPublishMessage;
         switch (msg.topic) {
-          case "actions/bson": {
+          case "actions/bson":
+            {
               final bytes = payload.payload.message?.toList(growable: false);
               if (bytes == null || bytes.isBlank == true) {
                 continue;
@@ -232,7 +235,8 @@ class MqttConnection {
               parseActionInfos(object);
             }
             break;
-            case "map/bson": {
+          case "map/bson":
+            {
               final bytes = payload.payload.message?.toList(growable: false);
               if (bytes == null || bytes.isBlank == true) {
                 continue;
@@ -241,7 +245,8 @@ class MqttConnection {
               parseMap(object);
             }
             break;
-            case "map_overlay/bson": {
+          case "map_overlay/bson":
+            {
               final bytes = payload.payload.message?.toList(growable: false);
               if (bytes == null || bytes.isBlank == true) {
                 continue;
@@ -250,7 +255,8 @@ class MqttConnection {
               parseMapOverlay(object);
             }
             break;
-            case "robot_state/bson": {
+          case "robot_state/bson":
+            {
               // Got the robot state
               final bytes = payload.payload.message?.toList(growable: false);
               if (bytes == null || bytes.isBlank == true) {
@@ -260,7 +266,8 @@ class MqttConnection {
               parseRobotState(object);
             }
             break;
-            case "sensor_infos/bson": {
+          case "sensor_infos/bson":
+            {
               // Got the robot state
               final bytes = payload.payload.message?.toList(growable: false);
               if (bytes == null || bytes.isBlank == true) {
@@ -270,7 +277,8 @@ class MqttConnection {
               parseSensorInfos(object);
             }
             break;
-            default: {
+          default:
+            {
               if (msg.topic != null) {
                 // It's probably some sensor data, get ID
                 final match = exp.firstMatch(msg.topic!);
@@ -293,13 +301,13 @@ class MqttConnection {
       }
     });
 
-    client.subscribe("actions/bson",      MqttQos.exactlyOnce);
-    client.subscribe("map/bson",          MqttQos.atLeastOnce);
-    client.subscribe("map_overlay/bson",  MqttQos.atMostOnce);
+    client.subscribe("actions/bson", MqttQos.exactlyOnce);
+    client.subscribe("map/bson", MqttQos.atLeastOnce);
+    client.subscribe("map_overlay/bson", MqttQos.atMostOnce);
     client.subscribe("sensor_infos/bson", MqttQos.atLeastOnce);
-    client.subscribe("robot_state/bson",  MqttQos.atMostOnce);
-    client.subscribe("robot_state/bson",  MqttQos.atMostOnce);
-    client.subscribe("sensors/+/bson",    MqttQos.atMostOnce);
+    client.subscribe("robot_state/bson", MqttQos.atMostOnce);
+    client.subscribe("robot_state/bson", MqttQos.atMostOnce);
+    client.subscribe("sensors/+/bson", MqttQos.atMostOnce);
   }
 
   void onDisconnected() {
@@ -339,7 +347,8 @@ class MqttConnection {
         .withClientIdentifier("om-client-$_client_id");
 //     .authenticateAs(settingsController.mqttUsername, settingsController.mqttPassword);
 
-    print('Mosquitto client connecting to ${client.server} on ${client.port}....');
+    print(
+        'Mosquitto client connecting to ${client.server} on ${client.port}....');
     client.connectionMessage = connMess;
 
     try {
@@ -356,7 +365,8 @@ class MqttConnection {
   }
 
   void tryConnect() {
-    if (client.connectionStatus?.state == MqttConnectionState.connected || client.connectionStatus?.state == MqttConnectionState.connecting) {
+    if (client.connectionStatus?.state == MqttConnectionState.connected ||
+        client.connectionStatus?.state == MqttConnectionState.connecting) {
       return;
     }
     print("trying reconnect MQTT");

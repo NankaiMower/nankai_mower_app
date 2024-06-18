@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nankai_mower_app/screens/component/bar/app_bar.dart';
 import 'package:niku/namespace.dart' as n;
-import 'package:nankai_mower_app/screens/dashboard.dart';
-import 'package:nankai_mower_app/screens/sensor_values.dart';
-import 'package:nankai_mower_app/screens/settings.dart';
-import 'package:nankai_mower_app/views/logo_widget_drawer.dart';
+import 'package:nankai_mower_app/screens/run/component/dashboard.dart';
+import 'package:nankai_mower_app/screens/run/component/sensor_values.dart';
+import 'package:nankai_mower_app/screens/run/component/settings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -24,19 +24,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-  int _index = 0;
+  int _drawerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Nankai Mower"),
-        titleSpacing: 0,
-        elevation: 10,
-        shadowColor: Colors.black,
-        backgroundColor: Colors.deepPurple,
-      ),
+      appBar: homeAppBar(),
+      // appBar: AppBar(
+      //     elevation: 0,
+      //     backgroundColor: Colors.white,
+      //     foregroundColor: Colors.grey),
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
@@ -44,11 +41,9 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.deepPurple,
+                color: Colors.blue,
               ),
-              child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: FittedBox(child: LogoWidgetDrawer(size: 0.1))),
+              child: Text(''),
             ),
             ListTile(
               leading: n.Icon(Icons.speed),
@@ -56,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
               onTap: () {
                 Get.back();
                 setState(() {
-                  _index = 0;
+                  _drawerIndex = 0;
                 });
               },
             ),
@@ -66,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
               onTap: () {
                 Get.back();
                 setState(() {
-                  _index = 1;
+                  _drawerIndex = 1;
                 });
               },
             ),
@@ -76,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
               onTap: () {
                 Get.back();
                 setState(() {
-                  _index = 2;
+                  _drawerIndex = 2;
                 });
               },
             ),
@@ -84,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
               leading: n.Icon(Icons.star),
               title: const Text('monitor'),
               onTap: () async {
-                const url = 'http://192.168.0.119:8081/video'; //替换视频跳转地址
+                const url = 'http://192.168.1.98:8081/video'; //替换视频跳转地址
                 await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
@@ -92,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
               leading: n.Icon(Icons.car_crash),
               title: const Text('stop'),
               onTap: () async {
-                const url = 'http://192.168.0.119:8081/stop';
+                const url = 'http://192.168.1.98:8081/stop';
                 await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
@@ -100,7 +95,7 @@ class _MainScreenState extends State<MainScreen> {
               leading: n.Icon(Icons.delete),
               title: const Text('Delete'),
               onTap: () async {
-                const url = 'http://192.168.0.119:8081/delete_file';
+                const url = 'http://192.168.1.98:8081/delete_file';
                 await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
@@ -108,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
             //   leading: n.Icon(Icons.book),
             //   title: const Text('law and policy'),
             //   onTap: () async {
-            //     const url = 'http://192.168.0.119:8081/law';
+            //     const url = 'http://192.168.1.98:8081/law';
             //     await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
             //   },
             // ),
@@ -126,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
               leading: n.Icon(Icons.edit_road),
               title: const Text('mowing route'),
               onTap: () async {
-                const url = 'http://192.168.0.119:8081/road';
+                const url = 'http://192.168.1.98:8081/road';
                 await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
@@ -134,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
               leading: n.Icon(Icons.rule),
               title: const Text('appointment'),
               onTap: () async {
-                const url = 'http://192.168.0.119:8081/date';
+                const url = 'http://192.168.1.98:8081/date';
                 await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
@@ -142,14 +137,14 @@ class _MainScreenState extends State<MainScreen> {
               leading: n.Icon(Icons.timelapse),
               title: const Text('history'),
               onTap: () async {
-                const url = 'http://192.168.0.119:8081/history';
+                const url = 'http://192.168.1.98:8081/history';
                 await launchUrlString(url, mode: LaunchMode.inAppBrowserView);
               },
             ),
           ],
         ),
       ),
-      body: widget.widgetList[_index],
+      body: widget.widgetList[_drawerIndex],
     );
   }
 }
