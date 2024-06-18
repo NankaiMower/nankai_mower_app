@@ -335,7 +335,7 @@ class MqttConnection {
       client.server = "ws://${settingsController.hostname}/";
     } else {
       // when flutter build web, comment it.
-      // client.useWebSocket = true;
+      client.useWebSocket = true;
       client.server = "ws://${settingsController.hostname}/";
     }
     client.port = settingsController.mqttPort.value;
