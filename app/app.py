@@ -70,7 +70,7 @@ def history():
 
 @app.route('/road', methods=['GET', 'POST'])
 def road():
-    return render_template('road.html')
+    return render_template('chooseroad.html')
 
 @app.route('/allchart', methods=['GET', 'POST'])
 def chart():
