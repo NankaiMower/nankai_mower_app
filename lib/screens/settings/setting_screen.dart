@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../component/bar/app_bar.dart';
-import '../component/drawer.dart';
-
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
 

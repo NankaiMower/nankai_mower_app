@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:niku/namespace.dart' as n;
-import 'package:nankai_mower_app/screens/law_and_policy.dart';
+import 'package:nankai_mower_app/screens/component/drawer/law_and_policy.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 

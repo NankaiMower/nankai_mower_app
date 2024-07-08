@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nankai_mower_app/screens/component/bar/app_bar.dart';
-import 'package:nankai_mower_app/screens/run/component/dashboard.dart';
-import 'package:nankai_mower_app/screens/run/component/main_screen.dart';
-import 'package:nankai_mower_app/screens/run/component/sensor_values.dart';
-import 'package:nankai_mower_app/screens/run/component/settings.dart';
+import 'package:nankai_mower_app/screens/component/app_bar.dart';
+import 'package:nankai_mower_app/screens/component/drawer/dashboard.dart';
+import 'package:nankai_mower_app/screens/component/drawer/sensor_values.dart';
+import 'package:nankai_mower_app/screens/component/drawer/settings.dart';
 import './home/home_screen.dart';
 import './run/run_screen.dart';
 import './plan/plan_screen.dart';
-import './setting/setting_screen.dart';
+import './settings/setting_screen.dart';
 import 'component/drawer.dart';
 
 class Tabs extends StatefulWidget {
@@ -22,14 +21,13 @@ class _TabsState extends State<Tabs> {
   int _drawerIndex = 1;
   final List<Widget> _pages = [
     HomeScreen(),
-    MainScreen(),
+    RunScreen(),
     PlanScreen(),
     SettingScreen(),
     Dashboard(),
     const SensorValues(),
     const Settings()
   ];
-
 
   void _onItemSelected(int index) {
     setState(() {
@@ -49,7 +47,7 @@ class _TabsState extends State<Tabs> {
           BottomNavigationBarItem(icon: Icon(Icons.cut), label: "Run"),
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month), label: "Plan"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
         ],
         currentIndex: _currentIndex,
         // 激活颜色

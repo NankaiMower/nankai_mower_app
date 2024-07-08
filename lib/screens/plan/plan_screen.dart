@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../component/bar/app_bar.dart';
-import '../component/drawer.dart';
-
 class PlanScreen extends StatefulWidget {
   const PlanScreen({super.key});
 
@@ -49,7 +46,7 @@ class _PlanScreenState extends State<PlanScreen> {
                 });
               },
               calendarFormat: CalendarFormat.month,
-            ),
+            )
           ],
         ),
       ),
