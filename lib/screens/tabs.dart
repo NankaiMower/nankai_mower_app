@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nankai_mower_app/screens/component/bar/app_bar.dart';
+import 'package:nankai_mower_app/screens/run/component/dashboard.dart';
 import 'package:nankai_mower_app/screens/run/component/main_screen.dart';
+import 'package:nankai_mower_app/screens/run/component/sensor_values.dart';
+import 'package:nankai_mower_app/screens/run/component/settings.dart';
 import './home/home_screen.dart';
 import './run/run_screen.dart';
 import './plan/plan_screen.dart';
 import './setting/setting_screen.dart';
+import 'component/drawer.dart';
 
 class Tabs extends StatefulWidget {
   const Tabs({super.key});
@@ -15,19 +19,30 @@ class Tabs extends StatefulWidget {
 
 class _TabsState extends State<Tabs> {
   int _currentIndex = 1;
+  int _drawerIndex = 1;
   final List<Widget> _pages = [
     HomeScreen(),
-    // RunSrceen(),
     MainScreen(),
     PlanScreen(),
-    SettingScreen()
+    SettingScreen(),
+    Dashboard(),
+    const SensorValues(),
+    const Settings()
   ];
+
+
+  void _onItemSelected(int index) {
+    setState(() {
+      _drawerIndex = index + 4;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: homeAppBar(),
-      body: _pages[_currentIndex],
+      appBar: homeAppBar(),
+      drawer: CustomDrawer(onItemSelected: _onItemSelected),
+      body: _pages[_drawerIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
@@ -43,6 +58,7 @@ class _TabsState extends State<Tabs> {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
+            _drawerIndex = index;
           });
         },
       ),
