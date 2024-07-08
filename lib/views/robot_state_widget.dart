@@ -68,6 +68,28 @@ class RobotStateWidget extends GetView<RobotStateController> {
                             controller.robotState.value.isCharging),
                         color: Colors.black54),
                     alignment: PlaceholderAlignment.middle),
+              ])),
+          RichText(
+              text: TextSpan(
+                  style: const TextStyle(color: Colors.black87),
+                  children: [
+                const TextSpan(text: "Schedule: "),
+                WidgetSpan(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 8,
+                          backgroundColor: Colors.red[100],
+                          valueColor:
+                              const AlwaysStoppedAnimation(Colors.green),
+                          value: controller.robotState.value.finishPercent,
+                        ),
+                      ),
+                    ),
+                    alignment: PlaceholderAlignment.middle),
               ]))
         ]));
   }
