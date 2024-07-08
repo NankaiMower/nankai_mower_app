@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; /* 修改这行 */
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+        }
+        .main-content {
+            display: flex; /* 添加这行 */
+            justify-content: center; /* 添加这行 */
+            align-items: center; /* 添加这行 */
+        }
+        .slider {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-container {
+            text-align: center;
+            max-width: 80%;
+            display: flex; /* 添加这行 */
+            flex-direction: column; /* 添加这行 */
+            justify-content: center; /* 添加这行 */
+            align-items: center; /* 添加这行 */
+        }
+
+        .image-container img {
+            max-width: 35%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .arrow {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .arrow img {
+            width: 50px;
+            height: 50px;
+            transform: translateY(-150%);
+        }
+
+        .arrow:hover img {
+            filter: brightness(0.8);
+        }
+        .left-image {
+            margin-right: 20px;
+        }
+        .image-container .button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .topnav {
+            width:100%;
+            background-color: #663399;
+            overflow: hidden;
+            height: 20%;
+            margin-bottom: 60px;
+        }
+        .topnav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .topnav .logo {
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .topnav a:hover {
+            background-color: #512b7f;
+        }
+    </style>
+</head>
+<body>
+    <div class="topnav">
+        <a href="#" class="logo">Nankai CVLab</a>
+    </div>
+    <div class="main-content">
+    <div class="slider">
+        <button id="prev" class="arrow">
+            <img src="/static/image/left-arrow.png">
+        </button>
+        <div class="image-container">
+            <img id="image" src="" alt="Image">
+            <p id="description" style="font-weight: bold;font-size: 30px;"></p>
+            <button class="button">选择该路线</button>
+        </div>
+        <button id="next" class="arrow">
+            <img src="/static/image/right-arrow.png">
+        </button>
+
+    </div>
+    </div>
+
+    <script>
+        const images = [
+            {
+                src: '/static/image/s.jpg',
+                description: '"S"型路线'
+            },
+            {
+                src: '/static/image/z.jpg',
+                description: '"Z"型路线'
+            },
+            {
+                src: '/static/image/3.jpg',
+                description: '"回"型路线'
+            },
+            {
+                src: '/static/image/4.jpg',
+                description: '"心"型路线（阳刻）'
+            },
+            {
+                src: '/static/image/5.jpg',
+                description: '"心"型路线（阴刻）'
+            },
+            {
+                src: '/static/image/6.jpg',
+                description: '"狗"型路线（阳刻）'
+            },
+            {
+                src: '/static/image/7.jpg',
+                description: '"狗"型路线（阴刻）'
+            },
+        ];
+
+        let currentIndex = 0;
+
+        const imageElement = document.getElementById('image');
+        const descriptionElement = document.getElementById('description');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+
+        function updateImage() {
+            imageElement.src = images[currentIndex].src;
+            descriptionElement.textContent = images[currentIndex].description;
+        }
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateImage();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateImage();
+        });
+
+        // Initialize the slider with the first image
+        updateImage();
+    </script>
+</body>
+</html>
