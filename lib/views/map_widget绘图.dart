@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/services.dart' show rootBundle;
-
+import 'package:flutter/rendering.dart';
 import 'package:nankai_mower_app/models/map_model.dart';
 import 'package:nankai_mower_app/models/map_overlay_model.dart';
 import 'package:nankai_mower_app/models/robot_state.dart';
@@ -30,15 +30,18 @@ class MapWidget extends GetView<RobotStateController> {
         child: SizedBox(
             width: double.infinity,
             height: double.infinity,
-            child: RepaintBoundary(
-                child: Obx(() => CustomPaint(
-                      isComplex: true,
-                      painter: MapPainter(
-                          controller.map.value,
-                          controller.mapOverlay.value,
-                          controller.robotState.value,
-                          centerOnRobot),
-                    )))));
+            child: Stack(fit: StackFit.expand, children: <Widget>[
+              RepaintBoundary(
+                  child: Obx(() => CustomPaint(
+                        isComplex: true,
+                        painter: MapPainter(
+                            controller.map.value,
+                            controller.mapOverlay.value,
+                            controller.robotState.value,
+                            centerOnRobot),
+                      ))),
+              const MousePaintApp()
+            ])));
   }
 }
 
@@ -368,5 +371,56 @@ class MapPainter extends CustomPainter {
       }
     }
     return false;
+  }
+}
+
+class MousePaintApp extends StatefulWidget {
+  const MousePaintApp({super.key});
+
+  @override
+  _MousePaintAppState createState() => _MousePaintAppState();
+}
+
+class _MousePaintAppState extends State<MousePaintApp> {
+  List<Offset> points = [];
+
+  void addPoint(Offset point) {
+    setState(() {
+      points.add(point);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+      onPointerMove: (PointerMoveEvent event) {
+        addPoint(event.localPosition);
+      },
+      onPointerDown: (PointerDownEvent event) {
+        addPoint(event.localPosition);
+      },
+      child: CustomPaint(
+        painter: PointPainter(points: points),
+        size: Size.infinite,
+      ),
+    );
+  }
+}
+
+class PointPainter extends CustomPainter {
+  PointPainter({required this.points});
+
+  final List<Offset> points;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    for (final point in points) {
+      canvas.drawCircle(point, 5.0, Paint()..color = Colors.blue);
+    }
+  }
+
+  @override
+  bool shouldRepaint(PointPainter oldDelegate) {
+    return oldDelegate.points != points;
   }
 }
