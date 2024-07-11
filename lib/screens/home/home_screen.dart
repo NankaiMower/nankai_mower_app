@@ -22,8 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String cityName = await _weatherService.getCurrentCity();
     // get weather for city
     try {
-      final weather = await _weatherService.getWeather('Tianjin');
-      print('Weather: ' + weather.toString());
+      final weather = await _weatherService.getWeather(cityName);
       setState(() {
         _weather = weather;
       });
@@ -31,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // any errors
     catch (e) {
-      print(e);
+      print('Weather API Error: ' + e.toString());
     }
   }
 
@@ -101,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Expanded(
                           child: Container(
                             margin: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(32.0),
@@ -110,19 +110,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Expanded(
                                   child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(32.0),
-                                      image: const DecorationImage(
+                                      decoration: const BoxDecoration(
+                                      image: DecorationImage(
                                         image: AssetImage('sources/N2000.png'), // 替换为你的图片路径
-                                        fit: BoxFit.cover,
+                                        // fit: BoxFit.cover,
+                                        scale: 0.2,
                                       ),
                                     ),
                                   ),
                                 ),
-                                const Text(
-                                  'Model: N2000',
-                                  style: TextStyle(fontSize: 16.0),
-                                ),
+
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 16.0),
+                                  child: const Text(
+                                    'Model: N2000',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                )
                               ],
                             ),
                           ),
@@ -139,16 +143,18 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 // city name
                                 Container(
-                                  padding: const EdgeInsets.symmetric(vertical: 0.0),
+                                  padding: const EdgeInsets.only(top: 4.0),
                                   child: Text(
                                     _weather?.cityName ?? "loading city...",
-                                    style: const TextStyle(fontSize: 24.0), // 设置字体大小
+                                    textAlign: TextAlign.center, // 设置文字居中
+                                    style: const TextStyle(fontSize: 20.0), // 设置字体大小
                                   ),
                                 ),
                                 // weather animation
                                 Container(
-                                  width: 100.0, // 设置动画宽度
-                                  height: 100.0, // 设置动画高度
+                                  padding: const EdgeInsets.symmetric(vertical: 0.0),
+                                  width: 80.0, // 设置动画宽度
+                                  height: 80.0, // 设置动画高度
                                   child: Lottie.asset(getWeatherAnimation(_weather?.mainCondition)),
                                 ),
                                 // temperature
@@ -156,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: const EdgeInsets.symmetric(vertical: 0.0),
                                   child: Text(
                                     '${_weather?.temperature.round()}°C',
-                                    style: const TextStyle(fontSize: 16.0), // 设置字体大小
+                                    style: const TextStyle(fontSize: 20.0), // 设置字体大小
                                   ),
                                 ),
                                 // weather condition
@@ -164,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: const EdgeInsets.symmetric(vertical: 0.0),
                                   child: Text(
                                     _weather?.mainCondition ?? "",
-                                    style: const TextStyle(fontSize: 12.0), // 设置字体大小
+                                    style: const TextStyle(fontSize: 20.0), // 设置字体大小
                                   ),
                                 ),
                               ],
