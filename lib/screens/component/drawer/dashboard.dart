@@ -99,7 +99,7 @@ class Dashboard extends GetView<RobotStateController> {
               }
               ..expanded
               ..p = 10),
-        n.Button.elevatedIcon("Stop".n, n.Icon(Icons.home))
+        n.Button.elevatedIcon("Go Home".n, n.Icon(Icons.home))
           ..enable = controller.hasAction("mower_logic:mowing/abort_mowing")
           ..onPressed = () {
             remoteControl.callAction("mower_logic:mowing/abort_mowing");
